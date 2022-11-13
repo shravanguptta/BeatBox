@@ -26,7 +26,7 @@ LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 # -pg for supporting gprof profiling.
 #CFLAGS += -pg
 
-all: wav
+all: 
 	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
 
 # Copy wave files to the shared folder

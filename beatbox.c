@@ -15,6 +15,7 @@ static pthread_t tids[THREAD_NUM];
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static bool isRunning = true;
 static int mode = 2;
+static int tempo = 120;
 
 
 void changeTempo(bool value) {
@@ -37,11 +38,11 @@ void changeVolumn(bool value) {
 
 void initAudioFiles() {
     //Add more as needed
-	AudioMixer_readWaveFileIntoMemory();
+	//udioMixer_readWaveFileIntoMemory();
 }
 
 void removeAudioFiles() {
-	AudioMixer_freeWaveFileData();
+	//AudioMixer_freeWaveFileData();
 }
 
 static void *selectBeat() 
@@ -52,9 +53,9 @@ static void *selectBeat()
 		if(mode == 1) {
 			continue;
 		} else if(mode == 2) {
-			standardRockBeat();
+			//standardRockBeat();
 		} else {
-			customDrumBeat();
+			//customDrumBeat();
 		}
 	}
 
@@ -80,7 +81,7 @@ static void *updateTempoAndVolumn()
 			}
 			pthread_mutex_unlock(&mutex);
 		} else if(joystickDir == 'R'){
-			pthread_mutex_lock(&mutex);isRunning
+			pthread_mutex_lock(&mutex);
 			{
 				changeTempo(true);
 			}
@@ -100,7 +101,7 @@ static void *updateTempoAndVolumn()
 		} else {
 			continue;
 		}
-		sleepNow(0, 500000000);
+		//sleepNow(0, 500000000);
 	}
 	return NULL;
 }
@@ -113,7 +114,7 @@ int main()
     while (true) {
         // Quit?
         if (toupper(getchar()) == 'Q') {
-			isRunning = False;
+			isRunning = false;
             break;
         }
     }
