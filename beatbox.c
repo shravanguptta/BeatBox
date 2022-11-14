@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include "audioMixer_template.h"
+#include "utilities.h"
+#include "joystick.h"
 
 #define THREAD_NUM 1
 #define MAX_TEMPO 300
@@ -38,7 +40,7 @@ void changeVolumn(bool value) {
 
 void initAudioFiles() {
     //Add more as needed
-	//udioMixer_readWaveFileIntoMemory();
+	//AudioMixer_readWaveFileIntoMemory();
 }
 
 void removeAudioFiles() {
@@ -66,12 +68,11 @@ static void *selectBeat()
 static void *updateTempoAndVolumn() 
 {
 	while(isRunning) {
-        char joystickDir = getdirection(); 
+        char joystickDir = Joystick_position(); 
 		if(joystickDir == 'U') {
 			pthread_mutex_lock(&mutex);
 			{
                 changeVolumn(true);
-				
 			}
 			pthread_mutex_unlock(&mutex);
 		} else if (joystickDir == 'D') {
@@ -101,7 +102,7 @@ static void *updateTempoAndVolumn()
 		} else {
 			continue;
 		}
-		//sleepNow(0, 500000000);
+		sleepForMs(500);
 	}
 	return NULL;
 }
@@ -111,6 +112,7 @@ int main()
     printf("Starting application \n");
 
     printf("Enter 'Q' to quit.\n");
+	/*
     while (true) {
         // Quit?
         if (toupper(getchar()) == 'Q') {
@@ -118,7 +120,7 @@ int main()
             break;
         }
     }
-
+	*/
 	AudioMixer_init();
 	pthread_create(&tids[0], NULL, selectBeat, NULL);
 	pthread_create(&tids[1], NULL, updateTempoAndVolumn, NULL);
